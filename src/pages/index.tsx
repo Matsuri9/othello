@@ -2,17 +2,12 @@
 import styles from './index.module.css';
 
 // クリック判定
-
-function getClickedClassName(event: MouseEvent): string {
-  const clickedElement = event.target as HTMLElement;
-  return clickedElement.className;
-}
-
-// クリック時の処理を設定
 if (typeof window === 'object') {
-  document.addEventListener('click', (event) => {
-    const clickedClassName = getClickedClassName(event);
-    console.log(clickedClassName);
+  const elements = document.querySelectorAll('div');
+  elements.forEach((element) => {
+    element.addEventListener('click', () => {
+      console.log(element.classList.value);
+    });
   });
 }
 
