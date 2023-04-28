@@ -6,11 +6,15 @@ if (typeof window === 'object') {
   const elements = document.querySelectorAll('div');
   elements.forEach((element) => {
     element.addEventListener('click', () => {
-      console.log(element.classList.value);
+      if (element.classList.value === 'index_disc__JTT4d') {
+        const rect = element.getBoundingClientRect();
+        const centerX = rect.x + rect.width / 2;
+        const centerY = rect.y + rect.height / 2;
+        console.log(`中心の座標は x:${centerX} y:${centerY} です`);
+      }
     });
   });
 }
-
 // 表示
 const Home = () => {
   return (
