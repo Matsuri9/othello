@@ -23,18 +23,22 @@
   flex-shrink: 0;
 }
 
-.disc {
+.disc.empty {
+  display: none;
+}
+
+.disc.black {
+  width: 77px;
+  height: 77px;
+  background-color: black;
+  border: solid 0 black;
+  border-radius: 50px;
+}
+
+.disc.white {
   width: 77px;
   height: 77px;
   background-color: white;
   border: solid 1px black;
   border-radius: 50px;
 }
-
-/* .discblack {
-  width: 77px;
-  height: 77px;
-  background-color: black;
-  border: solid 0 black;
-  border-radius: 50px;
-} */
