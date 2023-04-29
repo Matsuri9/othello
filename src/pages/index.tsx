@@ -2,23 +2,29 @@ import { useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
-  // ボックスの状態を持つstateを作成する
   const [boxes, setBoxes] = useState(
     Array.from(Array(64), (_, index) => ({
-      id: index + 1, // idの初期値を設定
-      state: 'empty', // stateの初期値を設定
+      id: index + 1,
+      state: (() => {
+        if (index === 27 || index === 36) return 'white';
+        if (index === 28 || index === 35) return 'black';
+        return 'empty';
+      })(),
     }))
   );
 
-  // ボックスをクリックしたときに状態を変更する
+  // stateClickedBox = クリックした場所のState
+  // id = 場所
+
   const handleClickBox = (id: number) => {
+    const stateClickedBox = boxes.find((box) => box.id === id);
+    console.log(`Box ${id} is in state: ${stateClickedBox?.state || 'not found'}`);
     changeBoxState(id, 'black');
   };
 
   const changeBoxState = (id: number, newState: string) => {
     const newBoxes = boxes.map((box) => (box.id === id ? { ...box, state: newState } : box));
     setBoxes(newBoxes);
-    console.log(`id: ${id}, state: ${newState}`);
   };
 
   return (
