@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import styles from './index.module.css';
 
+interface Box {
+  id: number;
+  state: 'empty' | 'white' | 'black';
+}
+
 const Home = () => {
-  const [boxes, setBoxes] = useState(
+  const [boxes, setBoxes] = useState<Box[]>(
     Array.from(Array(64), (_, index) => ({
       id: index + 1,
       state: (() => {
@@ -13,16 +18,13 @@ const Home = () => {
     }))
   );
 
-  // stateClickedBox = クリックした場所のState
-  // id = 場所
-
   const handleClickBox = (id: number) => {
-    const stateClickedBox = boxes.find((box) => box.id === id);
-    console.log(`Box ${id} is in state: ${stateClickedBox?.state || 'not found'}`);
+    const clickedBox = boxes.find((box) => box.id === id);
+    console.log(`Box ${id} is in state: ${clickedBox?.state || 'not found'}`);
     changeBoxState(id, 'black');
   };
 
-  const changeBoxState = (id: number, newState: string) => {
+  const changeBoxState = (id: number, newState: 'empty' | 'white' | 'black') => {
     const newBoxes = boxes.map((box) => (box.id === id ? { ...box, state: newState } : box));
     setBoxes(newBoxes);
   };
