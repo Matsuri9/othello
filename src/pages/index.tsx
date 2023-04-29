@@ -12,19 +12,15 @@ const Home = () => {
 
   // ボックスをクリックしたときに状態を変更する
   const handleClickBox = (id: number) => {
-    // boxesの中からidが一致するboxのstateを更新する
-    const newBoxes = boxes.map((box) => (box.id === id ? { ...box, state: 'black' } : box));
-    setBoxes(newBoxes);
-    console.log(`id: ${id}, state: ${newBoxes[id - 1].state}`); // 追加
     changeBoxState(id, 'black');
   };
 
   const changeBoxState = (id: number, newState: string) => {
     const newBoxes = boxes.map((box) => (box.id === id ? { ...box, state: newState } : box));
     setBoxes(newBoxes);
+    console.log(`id: ${id}, state: ${newState}`);
   };
 
-  // コンポーネントのレンダリング
   return (
     <div className={styles.container}>
       <div className={styles.board}>
