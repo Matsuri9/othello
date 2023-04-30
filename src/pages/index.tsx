@@ -7,7 +7,7 @@ interface Box {
 }
 
 const Home = () => {
-  const [whiteTurn, setWhiteTurn] = useState<boolean>(true);
+  const [whiteTurn, setWhiteTurn] = useState<boolean>(false);
   const [boxes, setBoxes] = useState<Box[]>(
     Array.from(Array(64), (_, index) => ({
       id: index + 1,
@@ -61,26 +61,42 @@ const Home = () => {
         }
       }
     }
-
+    let changeTurn = false;
     for (let t = 0; t < listNumber.length; t++) {
       if (listNumber[t] !== 0) {
+        changeTurn = true;
+        console.log(listNumber);
         for (let i = 0; i <= listNumber[t]; i++) {
           const boxToChange = id + functionNumber[t] * i;
-          console.log(boxToChange, i);
           if (whiteTurn) {
+            console.log(boxToChange, i, whiteTurn);
             changeBoxState(boxToChange, 'white');
           } else {
+            console.log(boxToChange, i, whiteTurn);
             changeBoxState(boxToChange, 'black');
           }
         }
       }
+      if (changeTurn === true) {
+        setWhiteTurn(!whiteTurn);
+      }
     }
-    setWhiteTurn(!whiteTurn);
   };
 
   const changeBoxState = (id: number, newState: 'empty' | 'white' | 'black') => {
-    const newBoxes = boxes.map((box) => (box.id === id ? { ...box, state: newState } : box));
-    setBoxes(newBoxes);
+    setBoxes((prevState) => {
+      const newBoxes = prevState.map((box) => {
+        if (box.id === id) {
+          return {
+            ...box,
+            state: newState,
+          };
+        } else {
+          return box;
+        }
+      });
+      return newBoxes;
+    });
   };
 
   return (
