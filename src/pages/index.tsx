@@ -26,6 +26,9 @@ const Home = () => {
     const functionNumber = [-8, -7, 1, 9, 8, 7, -1, -9];
     const listNumber = [0, 0, 0, 0, 0, 0, 0, 0];
 
+    if (boxes.find((box) => box.id === id)?.state !== 'empty') {
+      return;
+    }
     for (let t = 0; t < functionNumber.length; t++) {
       let tempBox = id;
       for (let i = 0; i < 10; i++) {
