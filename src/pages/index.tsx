@@ -28,32 +28,45 @@ const Home = () => {
     console.log(`Box ${id} is in state: ${clickedState || 'not found'}`);
 
     const functionNumber = [-8, -7, 1, 9, 8, 7, -1, -9];
+    const listNumber = [0, 0, 0, 0, 0, 0, 0, 0];
 
     for (let t = 0; t < functionNumber.length; t++) {
       let tempBox = id;
-      for (let i = 0; i < 10; ) {
+      for (let i = 0; i < 10; i++) {
         tempBox += functionNumber[t];
         if (
           tempBox <= 0 ||
-          65 <= tempBox ||
+          tempBox >= 65 ||
           ((t === 1 || t === 2 || t === 3) && (tempBox - 1) % 8 === 0) ||
           ((t === 5 || t === 6 || t === 7) && tempBox % 8 === 0)
         ) {
           console.log('break');
+          listNumber[t] = 0;
           break;
         }
         const tempBoxState = boxes.find((box) => box.id === tempBox)?.state;
-        if (clickedState === 'empty' && whiteTurn) {
-          setWhiteTurn(false);
-        } else if (clickedState === 'empty' && !whiteTurn) {
-          setWhiteTurn(true);
+        if (whiteTurn) {
+          if (tempBoxState === 'black') {
+            listNumber[t] += 1;
+          } else if (tempBoxState === 'white') {
+            console.log('break');
+            break;
+          }
+        } else {
+          if (tempBoxState === 'white') {
+            listNumber[t] += 1;
+          } else if (tempBoxState === 'black') {
+            console.log('break');
+            break;
+          }
         }
         console.log(`Box ${tempBox} is in state: ${tempBoxState} : ${t}`);
       }
     }
+    console.log(listNumber);
 
     // call changeBoxState function
-    changeBoxState(id, 'black');
+    changeBoxState(id, 'white');
   };
 
   const changeBoxState = (id: number, newState: 'empty' | 'white' | 'black') => {
