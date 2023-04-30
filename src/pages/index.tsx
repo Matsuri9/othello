@@ -23,10 +23,6 @@ const Home = () => {
   // clickedBox
 
   const handleClickBox = (id: number) => {
-    const clickedBox = boxes.find((box) => box.id === id);
-    const clickedState = clickedBox?.state;
-    console.log(`Box ${id} is in state: ${clickedState || 'not found'}`);
-
     const functionNumber = [-8, -7, 1, 9, 8, 7, -1, -9];
     const listNumber = [0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -40,7 +36,6 @@ const Home = () => {
           ((t === 1 || t === 2 || t === 3) && (tempBox - 1) % 8 === 0) ||
           ((t === 5 || t === 6 || t === 7) && tempBox % 8 === 0)
         ) {
-          console.log('break');
           listNumber[t] = 0;
           break;
         }
@@ -49,24 +44,38 @@ const Home = () => {
           if (tempBoxState === 'black') {
             listNumber[t] += 1;
           } else if (tempBoxState === 'white') {
-            console.log('break');
+            break;
+          } else {
+            listNumber[t] = 0;
             break;
           }
         } else {
           if (tempBoxState === 'white') {
             listNumber[t] += 1;
           } else if (tempBoxState === 'black') {
-            console.log('break');
+            break;
+          } else {
+            listNumber[t] = 0;
             break;
           }
         }
-        console.log(`Box ${tempBox} is in state: ${tempBoxState} : ${t}`);
       }
     }
-    console.log(listNumber);
 
-    // call changeBoxState function
-    changeBoxState(id, 'white');
+    for (let t = 0; t < listNumber.length; t++) {
+      if (listNumber[t] !== 0) {
+        for (let i = 0; i <= listNumber[t]; i++) {
+          const boxToChange = id + functionNumber[t] * i;
+          console.log(boxToChange, i);
+          if (whiteTurn) {
+            changeBoxState(boxToChange, 'white');
+          } else {
+            changeBoxState(boxToChange, 'black');
+          }
+        }
+      }
+    }
+    setWhiteTurn(!whiteTurn);
   };
 
   const changeBoxState = (id: number, newState: 'empty' | 'white' | 'black') => {
