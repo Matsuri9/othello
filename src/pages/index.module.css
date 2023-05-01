@@ -16,6 +16,10 @@
   flex-wrap: wrap;
 }
 
+.count {
+  opacity: 0.5;
+}
+
 .box {
   width: 80px;
   height: 80px;
