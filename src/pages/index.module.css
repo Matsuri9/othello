@@ -28,16 +28,16 @@
 }
 
 .disc.black {
-  width: 77px;
-  height: 77px;
+  width: 76px;
+  height: 76px;
   background-color: black;
   border: solid 0 black;
   border-radius: 50px;
 }
 
 .disc.white {
-  width: 77px;
-  height: 77px;
+  width: 76px;
+  height: 76px;
   background-color: white;
   border: solid 1px black;
   border-radius: 50px;

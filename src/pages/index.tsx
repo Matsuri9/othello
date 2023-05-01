@@ -19,13 +19,25 @@ const Home = () => {
     }))
   );
 
-  // id = 番号
-  // clickedBox
+  const changeBoxState = (id: number, newState: 'empty' | 'white' | 'black') => {
+    setBoxes((prevState) => {
+      const newBoxes = prevState.map((box) => {
+        if (box.id === id) {
+          return {
+            ...box,
+            state: newState,
+          };
+        } else {
+          return box;
+        }
+      });
+      return newBoxes;
+    });
+  };
 
   const handleClickBox = (id: number) => {
     const functionNumber = [-8, -7, 1, 9, 8, 7, -1, -9];
     const listNumber = [0, 0, 0, 0, 0, 0, 0, 0];
-
     if (boxes.find((box) => box.id === id)?.state !== 'empty') {
       return;
     }
@@ -86,24 +98,25 @@ const Home = () => {
     }
   };
 
-  const changeBoxState = (id: number, newState: 'empty' | 'white' | 'black') => {
-    setBoxes((prevState) => {
-      const newBoxes = prevState.map((box) => {
-        if (box.id === id) {
-          return {
-            ...box,
-            state: newState,
-          };
-        } else {
-          return box;
-        }
-      });
-      return newBoxes;
-    });
-  };
+  let whiteCount = 0;
+  let blackCount = 0;
+
+  for (let i = 1; i < 65; i++) {
+    if (boxes.find((box) => box.id === i)?.state === 'white') {
+      whiteCount++;
+    } else if (boxes.find((box) => box.id === i)?.state === 'black') {
+      blackCount++;
+    }
+  }
 
   return (
     <div className={styles.container}>
+      <h1>{`${whiteTurn ? 'White Turn' : 'Black Turn'}`}</h1>
+      <div className={styles.count}>
+        <h2>
+          White : {whiteCount} / Black : {blackCount}
+        </h2>
+      </div>
       <div className={styles.board}>
         {boxes.map((box) => (
           <div className={styles.box} key={box.id} onClick={() => handleClickBox(box.id)}>
