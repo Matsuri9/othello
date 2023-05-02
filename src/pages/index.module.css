@@ -46,3 +46,12 @@
   border: solid 1px black;
   border-radius: 50px;
 }
+
+.disc.allow {
+  top: 1px;
+  right: 1px;
+  width: 76px;
+  height: 76px;
+  background-color: green;
+  border: solid 5px rgb(255 128 0);
+}

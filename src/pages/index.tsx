@@ -3,7 +3,7 @@ import styles from './index.module.css';
 
 interface Box {
   id: number;
-  state: 'empty' | 'white' | 'black';
+  state: 'empty' | 'white' | 'black' | 'allow';
 }
 
 const Home = () => {
@@ -14,12 +14,13 @@ const Home = () => {
       state: (() => {
         if (index === 27 || index === 36) return 'white';
         if (index === 28 || index === 35) return 'black';
+        if (index === 19 || index === 26 || index === 37 || index === 44) return 'allow';
         return 'empty';
       })(),
     }))
   );
 
-  const changeBoxState = (id: number, newState: 'empty' | 'white' | 'black') => {
+  const changeBoxState = (id: number, newState: 'empty' | 'white' | 'black' | 'allow') => {
     setBoxes((prevState) => {
       const newBoxes = prevState.map((box) => {
         if (box.id === id) {
@@ -35,12 +36,9 @@ const Home = () => {
     });
   };
 
-  const handleClickBox = (id: number) => {
+  const makeDiscList = (id: number) => {
     const functionNumber = [-8, -7, 1, 9, 8, 7, -1, -9];
     const listNumber = [0, 0, 0, 0, 0, 0, 0, 0];
-    if (boxes.find((box) => box.id === id)?.state !== 'empty') {
-      return;
-    }
     for (let t = 0; t < functionNumber.length; t++) {
       let tempBox = id;
       for (let i = 0; i < 10; i++) {
@@ -76,6 +74,19 @@ const Home = () => {
         }
       }
     }
+    return listNumber;
+  };
+
+  const handleClickBox = (id: number) => {
+    const functionNumber = [-8, -7, 1, 9, 8, 7, -1, -9];
+    if (
+      boxes.find((box) => box.id === id)?.state === 'black' ||
+      boxes.find((box) => box.id === id)?.state === 'white'
+    ) {
+      return;
+    }
+    checkDotBox('reset');
+    const listNumber = makeDiscList(id);
     let changeTurn = false;
     for (let t = 0; t < listNumber.length; t++) {
       if (listNumber[t] !== 0) {
@@ -98,6 +109,27 @@ const Home = () => {
     }
   };
 
+  let dotList = [];
+  const checkDotBox = (text: string) => {
+    for (let i = 1; i < 65; i++) {
+      if (text === 'put') {
+        const listNumber = makeDiscList(i);
+        for (let t = 0; t < listNumber.length; t++) {
+          if (listNumber[t] !== 0) {
+            dotList.push(t);
+            break;
+          }
+        }
+      } else if (text === 'reset') {
+        if (boxes.find((box) => box.id === i)?.state === 'allow') {
+          console.log(i, 'reset');
+          changeBoxState(i, 'empty');
+        }
+      }
+    }
+  };
+
+  // カウント
   let whiteCount = 0;
   let blackCount = 0;
 
@@ -107,6 +139,14 @@ const Home = () => {
     } else if (boxes.find((box) => box.id === i)?.state === 'black') {
       blackCount++;
     }
+  }
+
+  // dot表示
+  checkDotBox('put');
+
+  for (let i = 0; i < dotList.length; i++) {
+    changeBoxState(i, 'allow');
+    dotList = [];
   }
 
   return (
