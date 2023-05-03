@@ -109,25 +109,48 @@ const Home = () => {
     }
   };
 
-  let dotList = [];
+  let dotList: number[] = [];
+
   const checkDotBox = (text: string) => {
-    for (let i = 1; i < 65; i++) {
-      if (text === 'put') {
-        const listNumber = makeDiscList(i);
+    if (text === 'put') {
+      for (let count = 1; count < 65; count++) {
+        const listNumber = makeDiscList(count);
         for (let t = 0; t < listNumber.length; t++) {
           if (listNumber[t] !== 0) {
-            dotList.push(t);
+            dotList.push(count);
             break;
           }
         }
-      } else if (text === 'reset') {
-        if (boxes.find((box) => box.id === i)?.state === 'allow') {
-          console.log(i, 'reset');
-          changeBoxState(i, 'empty');
+      }
+    } else if (text === 'reset') {
+      for (let count = 1; count < 65; count++) {
+        if (boxes.find((box) => box.id === count)?.state === 'allow') {
+          console.log(count, 'reset');
+          changeBoxState(count, 'empty');
         }
       }
     }
   };
+
+  // dot表示
+
+  checkDotBox('put');
+  console.log('list', dotList);
+  let passBool = false;
+  // changeBoxState(dotList[0], 'allow');
+  for (let i = 0; i < dotList.length; i++) {
+    if (i !== 0) {
+      passBool = true;
+      break;
+    }
+    // changeBoxState(dotList[i], 'allow');
+  }
+
+  if (passBool === true) {
+    setWhiteTurn(!whiteTurn);
+  }
+
+  dotList = [];
 
   // カウント
   let whiteCount = 0;
@@ -139,14 +162,6 @@ const Home = () => {
     } else if (boxes.find((box) => box.id === i)?.state === 'black') {
       blackCount++;
     }
-  }
-
-  // dot表示
-  checkDotBox('put');
-
-  for (let i = 0; i < dotList.length; i++) {
-    changeBoxState(i, 'allow');
-    dotList = [];
   }
 
   return (
