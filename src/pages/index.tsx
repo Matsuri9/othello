@@ -77,6 +77,31 @@ const Home = () => {
     return listNumber;
   };
 
+  let dotList: number[] = [];
+
+  const checkDotBox = (text: string) => {
+    if (text === 'put') {
+      const temp = [];
+      for (let count = 1; count < 65; count++) {
+        const listNumber = makeDiscList(count);
+        for (let t = 0; t < listNumber.length; t++) {
+          if (listNumber[t] !== 0) {
+            temp.push(count);
+            break;
+          }
+        }
+      }
+      dotList = temp;
+    } else if (text === 'reset') {
+      for (let count = 1; count < 65; count++) {
+        if (boxes.find((box) => box.id === count)?.state === 'allow') {
+          console.log(count, 'reset');
+          changeBoxState(count, 'empty');
+        }
+      }
+    }
+  };
+
   const handleClickBox = (id: number) => {
     const functionNumber = [-8, -7, 1, 9, 8, 7, -1, -9];
     if (
@@ -104,53 +129,32 @@ const Home = () => {
         }
       }
       if (changeTurn === true) {
+        console.log('test');
         setWhiteTurn(!whiteTurn);
+        // nextClickBox();
       }
     }
   };
 
-  let dotList: number[] = [];
+  // const nextClickBox = () => {
+  //   checkDotBox('put');
+  //   console.log('list', dotList);
+  //   let passBool = false;
 
-  const checkDotBox = (text: string) => {
-    if (text === 'put') {
-      for (let count = 1; count < 65; count++) {
-        const listNumber = makeDiscList(count);
-        for (let t = 0; t < listNumber.length; t++) {
-          if (listNumber[t] !== 0) {
-            dotList.push(count);
-            break;
-          }
-        }
-      }
-    } else if (text === 'reset') {
-      for (let count = 1; count < 65; count++) {
-        if (boxes.find((box) => box.id === count)?.state === 'allow') {
-          console.log(count, 'reset');
-          changeBoxState(count, 'empty');
-        }
-      }
-    }
-  };
+  //   for (let i = 0; i < dotList.length; i++) {
+  //     if (i !== 0) {
+  //       passBool = true;
+  //       break;
+  //     }
+  //     changeBoxState(dotList[i], 'allow');
+  //   }
 
-  // dot表示
+  //   if (passBool === true) {
+  //     setWhiteTurn(!whiteTurn);
+  //   }
 
-  checkDotBox('put');
-  console.log('list', dotList);
-  let passBool = false;
-  // changeBoxState(dotList[0], 'allow');
-  for (let i = 0; i < dotList.length; i++) {
-    if (i !== 0) {
-      passBool = true;
-      break;
-    }
-    // changeBoxState(dotList[i], 'allow');
-  }
-
-  if (passBool === true) {
-    setWhiteTurn(!whiteTurn);
-  }
-
-  dotList = [];
+  //   dotList = [];
+  // };
 
   // カウント
   let whiteCount = 0;
